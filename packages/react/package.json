@@ -24,7 +24,7 @@
     "react"
   ],
   "author": "Carl Reid",
-  "license": "MIT",
+  "license": "Unlicense",
   "publishConfig": {
     "access": "public"
   },
