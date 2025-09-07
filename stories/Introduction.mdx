@@ -1,0 +1,29 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import * as AllPluginsStories from './AllPlugins.stories';
+
+<Meta of={AllPluginsStories} title="Diffopotamus/Introduction" />
+
+# 🦛 Diffopotamus
+
+**Powerful image comparison with the precision of a pixel-peeping hippo!**
+
+<Canvas of={AllPluginsStories.AllPlugins} />
+
+The best way to understand Diffopotamus is to see it working. Each approach offers a unique way to compare images:
+
+- **[All Comparisons](?path=/story/diffopotamus-all-plugins-comparison--all-plugins)** - See all methods side by side
+- **[Slider](?path=/story/diffopotamus-plugins-slider-plugin--default)** - Interactive reveal with drag controls  
+- **[Side by Side](?path=/story/diffopotamus-plugins-side-by-side-plugin--default)** - Traditional split view
+- **[Overlay](?path=/story/diffopotamus-plugins-overlay-plugin--default)** - Smooth blending transitions
+
+<div style={{
+  marginTop: '30px',
+  padding: '20px',
+  backgroundColor: '#f8f9fa',
+  borderRadius: '8px',
+  borderLeft: '4px solid #667eea'
+}}>
+  <p style={{ margin: 0, fontStyle: 'italic', color: '#555' }}>
+    💡 <strong>Pro tip:</strong> Click through the examples above, or in the menu to the left, to interact with each comparison method and discover which style works best for your use case!
+  </p>
+</div>

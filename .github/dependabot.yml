@@ -1,0 +1,36 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "@carlreid"
+    assignees:
+      - "@carlreid"
+    commit-message:
+      prefix: "deps:"
+      prefix-development: "deps-dev:"
+    groups:
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook"
+      types:
+        patterns:
+          - "@types/*"
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci:"

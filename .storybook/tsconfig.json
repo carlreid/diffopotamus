@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../",
+    "outDir": "../dist/storybook",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "noEmit": true
+  },
+  "include": [
+    "../stories/**/*",
+    "../.storybook/**/*",
+    "../packages/*/src/**/*",
+    "../packages/*/dist/**/*"
+  ],
+  "exclude": ["../node_modules", "../packages/*/node_modules"]
+}
