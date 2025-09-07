@@ -1,0 +1,150 @@
+/* Overlay Plugin Styles */
+.diffopotamus-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.diffopotamus-overlay-images {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 60px);
+  overflow: hidden;
+}
+
+.diffopotamus-overlay-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.diffopotamus-overlay-image--before {
+  z-index: 1;
+}
+
+.diffopotamus-overlay-image--after {
+  z-index: 2;
+  opacity: 0.5;
+}
+
+.diffopotamus-overlay-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.diffopotamus-overlay-label {
+  color: white;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  white-space: nowrap;
+}
+
+.diffopotamus-opacity-slider {
+  width: 150px;
+  cursor: pointer;
+}
+
+.diffopotamus-opacity-value {
+  color: white;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  min-width: 35px;
+}
+
+.diffopotamus-toggle-button {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.diffopotamus-toggle-button:hover {
+  background-color: #555;
+}
+
+.diffopotamus-toggle-button:active {
+  background-color: #333;
+}
+
+.diffopotamus-animation-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-left: 1px solid #666;
+  padding-left: 12px;
+  margin-left: 8px;
+}
+
+.diffopotamus-play-button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  min-width: 32px;
+  transition: background-color 0.2s ease;
+}
+
+.diffopotamus-play-button:hover {
+  background-color: #005a9e;
+}
+
+.diffopotamus-play-button--playing {
+  background-color: #ff6b35;
+}
+
+.diffopotamus-play-button--playing:hover {
+  background-color: #e55a2b;
+}
+
+.diffopotamus-curve-selector {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.diffopotamus-curve-selector:focus {
+  outline: 1px solid #007acc;
+}
+
+.diffopotamus-speed-label {
+  color: white;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  white-space: nowrap;
+}
+
+.diffopotamus-speed-slider {
+  width: 60px;
+  cursor: pointer;
+}
+
+.diffopotamus-speed-value {
+  color: white;
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+  min-width: 25px;
+}

@@ -1,0 +1,334 @@
+export class StyleManager {
+  private static readonly STYLE_ID = "diffopotamus-overlay-styles";
+  private static instance: StyleManager | null = null;
+  private isInjected: boolean = false;
+
+  static getInstance(): StyleManager {
+    if (!StyleManager.instance) {
+      StyleManager.instance = new StyleManager();
+    }
+    return StyleManager.instance;
+  }
+
+  injectStyles(): void {
+    if (this.isInjected || document.getElementById(StyleManager.STYLE_ID)) {
+      return;
+    }
+
+    // In a real-world scenario, you would import the CSS file here
+    // For now, we'll fetch it or inline it based on your build setup
+    this.createStyleElement();
+    this.isInjected = true;
+  }
+
+  removeStyles(): void {
+    const existingStyle = document.getElementById(StyleManager.STYLE_ID);
+    if (existingStyle) {
+      existingStyle.remove();
+      this.isInjected = false;
+    }
+  }
+
+  private createStyleElement(): void {
+    const link = document.createElement("link");
+    link.id = StyleManager.STYLE_ID;
+    link.rel = "stylesheet";
+    link.type = "text/css";
+
+    // In a bundled environment, this would be handled by your bundler
+    // For now, we'll create the style element with the CSS content
+    const style = document.createElement("style");
+    style.id = StyleManager.STYLE_ID;
+    style.textContent = this.getCSSContent();
+
+    document.head.appendChild(style);
+  }
+
+  private getCSSContent(): string {
+    // In a real implementation, this would import the CSS file
+    // For now, we'll return the CSS content directly
+    return `
+/* Overlay Plugin Styles */
+.diffopotamus-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.diffopotamus-overlay-images {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 35px);
+  overflow: hidden;
+}
+
+.diffopotamus-overlay-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.diffopotamus-overlay-image--before {
+  z-index: 1;
+}
+
+.diffopotamus-overlay-image--after {
+  z-index: 2;
+  opacity: 0.5;
+}
+
+.diffopotamus-overlay-controls {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 20px;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.diffopotamus-compact-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+}
+
+.diffopotamus-advanced-controls {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.diffopotamus-expanded {
+  border-radius: 16px;
+}
+
+.diffopotamus-opacity-slider {
+  width: 120px;
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.diffopotamus-opacity-slider::-webkit-slider-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.diffopotamus-opacity-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #007ACC;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.diffopotamus-opacity-slider::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  border: none;
+}
+
+.diffopotamus-opacity-slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #007ACC;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.diffopotamus-opacity-value {
+  color: white;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  min-width: 30px;
+  font-weight: 500;
+}
+
+.diffopotamus-play-button {
+  background-color: #007ACC;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 10px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.diffopotamus-play-button:hover {
+  background-color: #005a9e;
+}
+
+.diffopotamus-play-button--playing {
+  background-color: #FF6B35;
+}
+
+.diffopotamus-play-button--playing:hover {
+  background-color: #e55a2b;
+}
+
+.diffopotamus-expand-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.diffopotamus-expand-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.diffopotamus-toggle-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  min-width: 32px;
+}
+
+.diffopotamus-toggle-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.diffopotamus-toggle-button:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.diffopotamus-animation-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.diffopotamus-curve-selector {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.diffopotamus-curve-selector:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.diffopotamus-curve-selector:focus {
+  outline: 2px solid #007ACC;
+  outline-offset: 2px;
+}
+
+.diffopotamus-speed-slider {
+  width: 50px;
+  height: 3px;
+  cursor: pointer;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.diffopotamus-speed-slider::-webkit-slider-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.diffopotamus-speed-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #007ACC;
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+.diffopotamus-speed-slider::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  border: none;
+}
+
+.diffopotamus-speed-slider::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #007ACC;
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+.diffopotamus-speed-value {
+  color: white;
+  font-size: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  min-width: 22px;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .diffopotamus-opacity-slider {
+    width: 80px;
+  }
+  
+  .diffopotamus-compact-controls {
+    gap: 6px;
+    padding: 5px 10px;
+  }
+  
+  .diffopotamus-advanced-controls {
+    gap: 6px;
+    padding: 5px 10px;
+  }
+}
+`;
+  }
+}

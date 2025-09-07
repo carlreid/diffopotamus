@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: biome lint
+      glob: "*.{js,ts,jsx,tsx,json,jsonc}"
+      run: pnpx @biomejs/biome check {staged_files}
