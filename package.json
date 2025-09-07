@@ -33,7 +33,7 @@
     "@types/node": "^24.3.1",
     "knip": "^5.63.1",
     "lefthook": "^1.12.3",
-    "semantic-release": "^23.0.0",
+    "semantic-release": "^24.2.7",
     "storybook": "9.1.5",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2"
