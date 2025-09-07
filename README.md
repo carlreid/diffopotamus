@@ -14,7 +14,6 @@ Our modular design means you can swap out comparison methods faster than a hippo
 - **Side by Side** - Classic split-screen action
 - **Overlay with Slider** - Swipe to reveal like a magic trick
 - **Overlay Blending** - Fade between images like a smooth operator
-- **Pixel Diff** - Highlight every tiny difference like a forensic expert
 
 **🎯 Easy as Pie (Hippo Pie?)**
 We believe comparing images should be fun, not a chore that makes you want to hibernate. Our API is as friendly as a baby hippo, making integration smoother than a hippo sliding into water.
@@ -59,23 +58,10 @@ function MyApp() {
 }
 ```
 
-**✅ Implementation Status:**
-- ✅ Core library with plugin architecture  
-- ✅ TypeScript support with full type safety
-- ✅ Built-in plugins (Slider, Side-by-Side, Overlay)
-- ✅ React hooks and components
-- ✅ Extensible plugin system
-- ✅ Event handling and lifecycle management
-- ✅ Responsive design and mobile support
-- ✅ Working demo and examples
-
 ## Features That'll Make You Go "WOW!" 🎉
 
 - **TypeScript Support** - Because we're not animals (well, except for the hippo theme)
 - **Zero Dependencies** - Lighter than a hippo on helium
-- **Responsive Design** - Looks great on everything from phones to jumbotrons
-- **Custom Styling** - Make it match your brand colors (hippo gray optional)
-- **Accessibility First** - Screen readers welcome!
 
 ## Plugin Ecosystem 🏗️
 
@@ -98,7 +84,7 @@ Found a bug? Want to add a feature? Think our hippo jokes need work? We'd love y
 
 ## License 📄
 
-MIT - Because sharing is caring, just like hippos sharing their watering holes.
+Unlicense - Because sharing is caring, just like hippos sharing their watering holes.
 
 ---
 
