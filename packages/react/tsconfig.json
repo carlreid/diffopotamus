@@ -4,8 +4,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "module": "ESNext",
-    "target": "ES2020",
-    "jsx": "react-jsx"
+    "target": "es2020",
+    "jsx": "react-jsx",
+    "lib": ["es2020", "DOM", "DOM.Iterable"]
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.test.ts", "**/*.test.tsx"]

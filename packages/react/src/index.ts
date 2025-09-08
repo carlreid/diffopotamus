@@ -1,23 +1,8 @@
-// React hooks
-
+export { DiffopotamusViewer } from "./DiffopotamusViewer.js";
 export type {
-  DiffopotamusConfig,
-  PluginConfig,
-  PluginEventMap,
-} from "@diffopotamus/core";
-// Re-export core library for convenience
-export {
-  BasePlugin,
-  Diffopotamus,
-  OverlayPlugin,
-  SideBySidePlugin,
-  SliderPlugin,
-} from "@diffopotamus/core";
-export type { DiffopotamusReactProps } from "./diffopotamus-react.js";
-// React component
-export { DiffopotamusReact } from "./diffopotamus-react.js";
-export type {
+  DiffopotamusViewerProps,
+  ImageInput,
   UseDiffopotamusOptions,
   UseDiffopotamusReturn,
-} from "./use-diffopotamus.js";
-export { useDiffopotamus } from "./use-diffopotamus.js";
+} from "./types.js";
+export { useDiffopotamus } from "./useDiffopotamus.js";
