@@ -20,63 +20,277 @@ We believe comparing images should be fun, not a chore that makes you want to hi
 
 ## Quick Start 🚀
 
-```bash
-# Install the magic
-pnpm add @diffopotamus/core
+### For Vanilla JavaScript/TypeScript Projects
 
-# For React lovers
-pnpm add @diffopotamus/react
+```bash
+pnpm add @diffopotamus/core
 ```
 
 ```javascript
-// Vanilla JS - Simple as a hippo's smile
-import { Diffopotamus, SliderPlugin } from '@diffopotamus/core';
+import { Diffopotamus, SliderPlugin, OverlayPlugin, SideBySidePlugin } from '@diffopotamus/core';
 
-const differ = new Diffopotamus('#container', {
-  beforeImage: 'before.jpg',
-  afterImage: 'after.jpg',
-  defaultPlugin: 'slider'
+const container = document.getElementById('diff-container');
+const differ = new Diffopotamus(container, {
+  beforeImage: '/path/to/before.jpg',
+  afterImage: '/path/to/after.jpg',
+  width: '100%',
+  height: '400px'
 });
 
+// Register the plugins you want to use
 differ.registerPlugin('slider', SliderPlugin);
+differ.registerPlugin('overlay', OverlayPlugin);
+differ.registerPlugin('sideBySide', SideBySidePlugin);
+
+// Activate your preferred plugin
+await differ.activatePlugin('slider');
 ```
 
+### For React Projects
+
+```bash
+pnpm add @diffopotamus/react
+```
+
+#### Component Approach
+
 ```jsx
-// React - Because components are cool  
-import { DiffopotamusReact } from '@diffopotamus/react';
+import { DiffopotamusViewer } from '@diffopotamus/react';
 
 function MyApp() {
   return (
-    <DiffopotamusReact
-      beforeImage="messy-room.jpg"
-      afterImage="clean-room.jpg"
-      plugin="slider"
+    <DiffopotamusViewer
+      beforeImage="/messy-room.jpg"
+      afterImage="/clean-room.jpg"
+      defaultPlugin="slider"
       width="100%"
       height="400px"
+      onPluginChange={(plugin) => console.log('Switched to:', plugin)}
+      onReady={(instance) => console.log('Ready to compare!')}
     />
   );
 }
 ```
 
-## Features That'll Make You Go "WOW!" 🎉
+#### Hook Approach
 
-- **TypeScript Support** - Because we're not animals (well, except for the hippo theme)
-- **Zero Dependencies** - Lighter than a hippo on helium
+```jsx
+import { useRef } from 'react';
+import { useDiffopotamus } from '@diffopotamus/react';
+
+function MyApp() {
+  const containerRef = useRef(null);
+  
+  const {
+    instance,
+    isLoading,
+    isReady,
+    activatePlugin,
+    getAvailablePlugins
+  } = useDiffopotamus({
+    containerRef,
+    beforeImage: '/messy-room.jpg',
+    afterImage: '/clean-room.jpg',
+    defaultPlugin: 'overlay',
+    width: '600px',
+    height: '400px'
+  });
+
+  if (isLoading) return <div>Loading images...</div>;
+
+  return (
+    <div>
+      <div>
+        {getAvailablePlugins().map(plugin => (
+          <button 
+            key={plugin}
+            onClick={() => activatePlugin(plugin)}
+            disabled={!isReady}
+          >
+            {plugin}
+          </button>
+        ))}
+      </div>
+      
+      <div 
+        ref={containerRef} 
+        style={{ width: '600px', height: '400px' }}
+      />
+    </div>
+  );
+}
+```
 
 ## Plugin Ecosystem 🏗️
 
-Create your own plugins! It's easier than teaching a hippo to dance:
+Diffopotamus comes with built-in plugins, and creating custom ones is easier than teaching a hippo to dance:
+
+### Built-in Plugins
+
+#### Slider
+Perfect for dramatic reveals! Drag a slider to reveal the differences.
+
+```javascript
+// Core usage
+import { SliderPlugin } from '@diffopotamus/core';
+differ.registerPlugin('slider', SliderPlugin);
+await differ.activatePlugin('slider');
+
+// React usage - automatically available!
+<DiffopotamusViewer defaultPlugin="slider" />
+```
+
+#### Overlay
+Blend images with different modes like a photo editing pro.
+
+```javascript
+// Core usage  
+import { OverlayPlugin } from '@diffopotamus/core';
+differ.registerPlugin('overlay', OverlayPlugin);
+await differ.activatePlugin('overlay');
+
+// React usage - automatically available!
+<DiffopotamusViewer defaultPlugin="overlay" />
+```
+
+#### Side-by-Side
+Classic split-screen comparison - old school but gold school!
+
+```javascript
+// Core usage
+import { SideBySidePlugin } from '@diffopotamus/core';
+differ.registerPlugin('sideBySide', SideBySidePlugin);
+await differ.activatePlugin('sideBySide');
+
+// React usage - automatically available!
+<DiffopotamusViewer defaultPlugin="sideBySide" />
+```
+
+### Creating Custom Plugins
 
 ```typescript
 import { BasePlugin } from '@diffopotamus/core';
 
 export class MyAwesomePlugin extends BasePlugin {
   render() {
-    // Your creative genius goes here
-    // Make those images dance!
+    // Insert your creative genius
+    // Access this.beforeImage, this.afterImage, this.container
+    // ...
+    // Consider contributing the plugin to Diffopotamus
+    
+    const beforeImg = document.createElement('img');
+    beforeImg.src = this.beforeImage.src;
+    beforeImg.style.opacity = '0.5';
+    
+    const afterImg = document.createElement('img');
+    afterImg.src = this.afterImage.src;
+    afterImg.style.opacity = '0.5';
+    
+    this.container.appendChild(beforeImg);
+    this.container.appendChild(afterImg);
+  }
+  
+  destroy() {
+    // Clean up your mess when the plugin is deactivated
+    this.container.innerHTML = '';
   }
 }
+
+// Register and use your plugin
+differ.registerPlugin('myAwesome', MyAwesomePlugin);
+await differ.activatePlugin('myAwesome');
 ```
+
+## Advanced Examples 🎯
+
+### Dynamic Image Switching
+
+```javascript
+// Core - Switch images on the fly
+const differ = new Diffopotamus(container, {
+  beforeImage: '/image1-before.jpg',
+  afterImage: '/image1-after.jpg'
+});
+
+// Later... 
+await differ.updateImages('/image2-before.jpg', '/image2-after.jpg');
+```
+
+```jsx
+// React Hook - With loading states
+const { updateImages, isLoading } = useDiffopotamus({
+  containerRef,
+  beforeImage: currentImages.before,
+  afterImage: currentImages.after
+});
+
+const switchImageSet = async () => {
+  await updateImages(newImages.before, newImages.after);
+};
+```
+
+### Error Handling
+
+```javascript
+// Core
+const differ = new Diffopotamus(container, {
+  beforeImage: '/before.jpg',
+  afterImage: '/after.jpg',
+  onError: (error) => {
+    console.error('Image loading failed:', error);
+  }
+});
+```
+
+```jsx
+// React
+const { error, isLoading, isReady } = useDiffopotamus({
+  // ... config
+});
+
+if (error) return <div>Error: {error.message}</div>;
+if (isLoading) return <div>Loading images...</div>;
+if (!isReady) return <div>Initializing...</div>;
+```
+
+### Plugin Switching
+
+```javascript
+// Core
+await differ.activatePlugin('overlay');
+```
+
+```jsx
+// React
+const { activatePlugin, getCurrentPlugin, getAvailablePlugins } = useDiffopotamus({
+  // ... config
+});
+
+return (
+  <div>
+    {getAvailablePlugins().map(plugin => (
+      <button
+        key={plugin}
+        onClick={() => activatePlugin(plugin)}
+        className={getCurrentPlugin() === plugin ? 'active' : ''}
+      >
+        {plugin}
+      </button>
+    ))}
+  </div>
+);
+```
+
+## Package Structure 📦
+
+Diffopotamus is organized as a monorepo with focused packages:
+
+- **[@diffopotamus/core](./packages/core)** - The main engine, framework-agnostic
+- **[@diffopotamus/react](./packages/react)** - React component and hook
+
+Choose the package that fits your project:
+- Building a React app? → `@diffopotamus/react`
+- Using Vue, Svelte, or vanilla JS? → `@diffopotamus/core`
 
 ## Contributing 🤝
 
