@@ -33,7 +33,7 @@
     "@types/node": "^24.3.1",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "knip": "^5.63.1",
-    "lefthook": "^1.12.3",
+    "lefthook": "^1.12.4",
     "semantic-release": "^23.0.0",
     "storybook": "9.1.5",
     "tslib": "^2.8.1",
