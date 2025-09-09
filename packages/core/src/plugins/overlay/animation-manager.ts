@@ -1,4 +1,4 @@
-export type EasingFunction = (t: number) => number;
+type EasingFunction = (t: number) => number;
 
 export interface AnimationCurve {
   name: string;

@@ -1,21 +1,23 @@
 import { BasePlugin } from "../../types/index.js";
 import { SideBySideRenderer } from "./components/side-by-side-renderer.js";
-import { StyleManager } from "./styles/style-manager.js";
+import "./styles.js";
+import { sideBySideStyles } from "./styles.js";
 import type {
   SideBySideConfig,
   SideBySideElements,
 } from "./types/side-by-side-types.js";
 
+// Ensure styles are included in the bundle
+void sideBySideStyles;
+
 export class SideBySidePlugin extends BasePlugin {
   private elements: SideBySideElements | null = null;
-  private styleManager: StyleManager;
   private renderer: SideBySideRenderer;
   private showLabels: boolean = true;
   private sideBySideConfig: SideBySideConfig | undefined = undefined;
 
   constructor(config: SideBySideConfig) {
     super(config);
-    this.styleManager = StyleManager.getInstance();
     this.renderer = new SideBySideRenderer();
     this.sideBySideConfig = config;
   }
@@ -24,8 +26,6 @@ export class SideBySidePlugin extends BasePlugin {
     if (!this.sideBySideConfig) {
       throw new Error("Config is not defined");
     }
-
-    this.styleManager.injectStyles();
     this.elements = this.renderer.create(this.sideBySideConfig);
     this.container.appendChild(this.elements.container);
   }
@@ -72,7 +72,4 @@ export class SideBySidePlugin extends BasePlugin {
 }
 
 // Re-export types for external use
-export type {
-  SideBySideConfig,
-  SideBySideElements,
-} from "./types/side-by-side-types.js";
+export type { SideBySideConfig } from "./types/side-by-side-types.js";

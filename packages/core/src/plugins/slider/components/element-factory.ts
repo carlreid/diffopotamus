@@ -1,10 +1,17 @@
-export function createContainer(className: string): HTMLElement {
+import {
+  sliderButtonStyles,
+  sliderHandleStyles,
+  sliderImageStyles,
+  sliderStyles,
+} from "../styles.js";
+
+function createContainer(className?: string): HTMLElement {
   const container = document.createElement("div");
-  container.className = className;
+  container.className = className || sliderStyles;
   return container;
 }
 
-export function createImageElement(
+function createImageElement(
   src: string,
   alt: string,
   type: "before" | "after",
@@ -12,20 +19,21 @@ export function createImageElement(
   const img = document.createElement("img");
   img.src = src;
   img.alt = alt;
-  img.className = `diffopotamus-slider-image diffopotamus-slider-image--${type}`;
+  // Use both the Linaria class and the type-specific class
+  img.className = `${sliderImageStyles} ${type}`;
   return img;
 }
 
-export function createSliderHandle(): HTMLElement {
+function createSliderHandle(): HTMLElement {
   const handle = document.createElement("div");
-  handle.className = "diffopotamus-slider-handle";
+  handle.className = sliderHandleStyles;
   handle.style.left = "50%";
   return handle;
 }
 
-export function createSliderButton(icon: string = "⟷"): HTMLElement {
+function createSliderButton(icon: string = "⟷"): HTMLElement {
   const button = document.createElement("div");
-  button.className = "diffopotamus-slider-button";
+  button.className = sliderButtonStyles;
   button.innerHTML = icon;
   button.style.top = "50%";
   button.style.left = "50%";
@@ -43,7 +51,7 @@ export function createSliderLayout(
   const { initialPosition = 50, buttonIcon = "⟷" } = config;
 
   // Create main container
-  const container = createContainer("diffopotamus-slider");
+  const container = createContainer();
 
   // Create images (order matters for z-index layering)
   const afterImage = createImageElement(afterImageSrc, "After image", "after");

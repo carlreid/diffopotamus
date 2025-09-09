@@ -2,6 +2,11 @@ import { BasePlugin, type BasePluginConfig } from "../../types/index.js";
 import { AnimationManager } from "./animation-manager.js";
 import { OverlayEventManager } from "./overlay-event-manager.js";
 import { OverlayUIManager } from "./overlay-ui-manager.js";
+import "./styles.js";
+import { overlayStyles } from "./styles.js";
+
+// Ensure styles are included in the bundle
+void overlayStyles;
 
 export class OverlayPlugin extends BasePlugin {
   private animationManager: AnimationManager;

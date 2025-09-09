@@ -1,5 +1,3 @@
-import type { AnimationCurve } from "../animation-manager.js";
-
 export interface ImageElements {
   container: HTMLElement;
   beforeImg: HTMLImageElement;
@@ -49,16 +47,6 @@ export interface OverlayElements {
   speedValue: HTMLElement;
 }
 
-export interface OverlayConfig {
-  images: {
-    before: string;
-    after: string;
-  };
-  animations: AnimationCurve[];
-  initialOpacity?: number;
-  initialSpeed?: number;
-}
-
 export interface UIState {
   opacity: number;
   isPlaying: boolean;
@@ -94,25 +82,4 @@ export interface SelectorConfig {
   options: SelectOption[];
   className: string;
   title: string;
-}
-
-export interface ThemeConfig {
-  primaryColor?: string;
-  backgroundColor?: string;
-  borderRadius?: string;
-  fontSize?: string;
-}
-
-export interface ResponsiveConfig {
-  breakpoints?: {
-    mobile: number;
-    tablet: number;
-    desktop: number;
-  };
-}
-
-export interface ControlsConfig {
-  showAdvanced?: boolean;
-  autoCollapse?: boolean;
-  compactMode?: boolean;
 }

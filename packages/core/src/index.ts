@@ -1,3 +1,8 @@
+// Import styles - Linaria will handle CSS extraction
+import "./plugins/overlay/styles.js";
+import "./plugins/slider/styles.js";
+import "./plugins/side-by-side/styles.js";
+
 // Main library
 export { Diffopotamus } from "./diffopotamus.js";
 export { OverlayPlugin } from "./plugins/overlay/index.js";

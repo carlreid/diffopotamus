@@ -2,16 +2,27 @@ import { BasePlugin, type BasePluginConfig } from "../../types/index.js";
 import { SliderRenderer } from "./components/slider-renderer.js";
 import { EventController } from "./events/event-controller.js";
 import { StateManager } from "./state/state-manager.js";
-import { StyleManager } from "./styles/style-manager.js";
+import "./styles.js";
+import {
+  sliderButtonStyles,
+  sliderHandleStyles,
+  sliderImageStyles,
+  sliderStyles,
+} from "./styles.js";
 import type {
   SliderConfig,
   SliderElements,
   SliderState,
 } from "./types/slider-types.js";
 
+// Ensure styles are included in the bundle
+void sliderStyles;
+void sliderHandleStyles;
+void sliderButtonStyles;
+void sliderImageStyles;
+
 export class SliderPlugin extends BasePlugin {
   private elements: SliderElements | null = null;
-  private styleManager: StyleManager;
   private renderer: SliderRenderer;
   private stateManager: StateManager;
   private eventController: EventController;
@@ -19,16 +30,12 @@ export class SliderPlugin extends BasePlugin {
 
   constructor(config: BasePluginConfig) {
     super(config);
-    this.styleManager = StyleManager.getInstance();
     this.renderer = new SliderRenderer();
     this.stateManager = new StateManager();
     this.eventController = new EventController(this.stateManager);
   }
 
   render(): void {
-    // Inject styles
-    this.styleManager.injectStyles();
-
     // Create the slider layout
     const sliderConfig: SliderConfig = {
       images: {
@@ -100,9 +107,4 @@ export class SliderPlugin extends BasePlugin {
   }
 }
 
-// Re-export types for external use
-export type {
-  SliderConfig,
-  SliderElements,
-  SliderState,
-} from "./types/slider-types.js";
+// Re-export types for external use;

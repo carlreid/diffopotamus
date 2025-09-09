@@ -25,7 +25,7 @@ export function createImageElement(
   return img;
 }
 
-export function createSlider(config: SliderConfig): HTMLInputElement {
+function createSlider(config: SliderConfig): HTMLInputElement {
   const slider = document.createElement("input");
   slider.type = "range";
   slider.min = config.min;
@@ -41,7 +41,7 @@ export function createSlider(config: SliderConfig): HTMLInputElement {
   return slider;
 }
 
-export function createButton(config: ButtonConfig): HTMLButtonElement {
+function createButton(config: ButtonConfig): HTMLButtonElement {
   const button = document.createElement("button");
   button.textContent = config.text;
   button.className = config.className;
@@ -50,7 +50,7 @@ export function createButton(config: ButtonConfig): HTMLButtonElement {
   return button;
 }
 
-export function createSelector(config: SelectorConfig): HTMLSelectElement {
+function createSelector(config: SelectorConfig): HTMLSelectElement {
   const select = document.createElement("select");
   select.className = config.className;
   select.title = config.title;
@@ -65,7 +65,7 @@ export function createSelector(config: SelectorConfig): HTMLSelectElement {
   return select;
 }
 
-export function createValueDisplay(
+function createValueDisplay(
   className: string,
   initialValue: string,
 ): HTMLElement {

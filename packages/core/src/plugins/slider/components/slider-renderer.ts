@@ -74,13 +74,9 @@ export class SliderRenderer {
     if (!this.elements) return;
 
     if (isDragging) {
-      this.elements.sliderButton.classList.add(
-        "diffopotamus-slider-button--dragging",
-      );
+      this.elements.sliderButton.classList.add("dragging");
     } else {
-      this.elements.sliderButton.classList.remove(
-        "diffopotamus-slider-button--dragging",
-      );
+      this.elements.sliderButton.classList.remove("dragging");
     }
   }
 

@@ -19,19 +19,5 @@ export interface SliderConfig {
 export interface SliderState {
   position: number; // 0-100 percentage
   isDragging: boolean;
-  buttonVerticalPosition: number; // For vertical positioning of button
-}
-
-export interface Position {
-  x: number;
-  y: number;
-}
-
-export interface Bounds {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-  width: number;
-  height: number;
+  buttonVerticalPosition: number;
 }

@@ -3,7 +3,7 @@ import type {
   LabelConfig,
 } from "../types/side-by-side-types.js";
 
-export function createContainer(config: ContainerConfig): HTMLElement {
+function createContainer(config: ContainerConfig): HTMLElement {
   const container = document.createElement("div");
   container.className = `${config.className} diffopotamus-side-by-side--${config.orientation}`;
 
@@ -14,13 +14,13 @@ export function createContainer(config: ContainerConfig): HTMLElement {
   return container;
 }
 
-export function createImageContainer(className: string): HTMLElement {
+function createImageContainer(className: string): HTMLElement {
   const container = document.createElement("div");
   container.className = className;
   return container;
 }
 
-export function createImageElement(src: string, alt: string): HTMLImageElement {
+function createImageElement(src: string, alt: string): HTMLImageElement {
   const img = document.createElement("img");
   img.src = src;
   img.alt = alt;
@@ -29,7 +29,7 @@ export function createImageElement(src: string, alt: string): HTMLImageElement {
   return img;
 }
 
-export function createLabel(config: LabelConfig): HTMLElement {
+function createLabel(config: LabelConfig): HTMLElement {
   const label = document.createElement("div");
   label.className = config.className;
   label.textContent = config.text;

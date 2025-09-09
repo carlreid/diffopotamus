@@ -3,19 +3,22 @@
   "version": "1.0.1",
   "description": "React components for diffopotamus",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "node build.js && tsc --emitDeclarationOnly",
     "dev": "tsc --watch"
   },
   "keywords": [
@@ -40,7 +43,6 @@
     "@diffopotamus/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9"
+    "@types/react": "^19.1.12"
   }
 }
