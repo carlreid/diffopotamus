@@ -29,6 +29,13 @@
       }
     ],
     [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "packages/react",
+        "tarballDir": "dist"
+      }
+    ],
+    [
       "@semantic-release/git",
       {
         "assets": [
