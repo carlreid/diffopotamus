@@ -36,6 +36,24 @@
       }
     ],
     [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "packages/core",
+        "npmPublish": true,
+        "tarballDir": "dist",
+        "registry": "https://npm.pkg.github.com"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "packages/react",
+        "npmPublish": true,
+        "tarballDir": "dist",
+        "registry": "https://npm.pkg.github.com"
+      }
+    ],
+    [
       "@semantic-release/git",
       {
         "assets": [
