@@ -28,7 +28,9 @@ pnpm add @diffopotamus/core
 ```
 
 ```javascript
-import { Diffopotamus, SliderPlugin, OverlayPlugin, SideBySidePlugin } from '@diffopotamus/core';
+import { Diffopotamus } from '@diffopotamus/core';
+import { SliderPlugin } from '@diffopotamus/core/plugins/slider';
+import '@diffopotamus/core/plugins/slider/styles.css';
 
 const container = document.getElementById('diff-container');
 const differ = new Diffopotamus(container, {
@@ -40,8 +42,6 @@ const differ = new Diffopotamus(container, {
 
 // Register the plugins you want to use
 differ.registerPlugin('slider', SliderPlugin);
-differ.registerPlugin('overlay', OverlayPlugin);
-differ.registerPlugin('sideBySide', SideBySidePlugin);
 
 // Activate your preferred plugin
 await differ.activatePlugin('slider');
@@ -50,13 +50,17 @@ await differ.activatePlugin('slider');
 ### For React Projects
 
 ```bash
-pnpm add @diffopotamus/react
+pnpm add @diffopotamus/core @diffopotamus/react
 ```
 
 #### Component Approach
 
 ```jsx
 import { DiffopotamusViewer } from '@diffopotamus/react';
+import { SliderPlugin } from '@diffopotamus/core/plugins/slider';
+import '@diffopotamus/core/plugins/slider/styles.css';
+
+const plugins = { slider: SliderPlugin };
 
 function MyApp() {
   return (
@@ -64,6 +68,7 @@ function MyApp() {
       beforeImage="/messy-room.jpg"
       afterImage="/clean-room.jpg"
       defaultPlugin="slider"
+      plugins={plugins}
       width="100%"
       height="400px"
       onPluginChange={(plugin) => console.log('Switched to:', plugin)}
@@ -78,6 +83,10 @@ function MyApp() {
 ```jsx
 import { useRef } from 'react';
 import { useDiffopotamus } from '@diffopotamus/react';
+import { OverlayPlugin } from '@diffopotamus/core/plugins/overlay';
+import '@diffopotamus/core/plugins/overlay/styles.css';
+
+const plugins = { overlay: OverlayPlugin };
 
 function MyApp() {
   const containerRef = useRef(null);
@@ -93,6 +102,7 @@ function MyApp() {
     beforeImage: '/messy-room.jpg',
     afterImage: '/clean-room.jpg',
     defaultPlugin: 'overlay',
+    plugins,
     width: '600px',
     height: '400px'
   });
@@ -122,6 +132,34 @@ function MyApp() {
 }
 ```
 
+## Plugins and styles
+
+Import only the plugin constructors and stylesheets you need, as shown above. Core and React do not load built-in plugins or inject CSS automatically.
+
+- Core: register plugins with `registerPlugin`, or pass a `plugins` object in the configuration.
+- React: pass a `plugins` object to the component or hook. Define it outside the component, or memoize it.
+- `defaultPlugin` chooses the starting plugin; your imports determine what is bundled.
+
+### Customize the defaults
+
+Default styles use `@layer diffopotamus`, so normal unlayered product CSS can override them without `!important`. If your product uses layers too, declare `@layer diffopotamus, product;` before loading the styles.
+
+```css
+.product-comparison {
+  --diffopotamus-accent: #713acc;
+  --diffopotamus-control-radius: 6px;
+  --diffopotamus-font: Inter, sans-serif;
+}
+
+.product-comparison .diffopotamus-slider-button {
+  box-shadow: none;
+}
+```
+
+Apply `product-comparison` to the container, or set `className="product-comparison"` on `DiffopotamusViewer`. You can also set `--diffopotamus-control-background`. Existing lightbox-specific variables remain supported.
+
+Use the plugins' prefixed appearance classes for overrides; avoid depending on internal DOM nesting or state classes. Keep positioning and visibility intact. To replace the defaults entirely, omit the stylesheet and provide your own layout and appearance rules. CSS can restyle controls, but cannot replace them with components from another library.
+
 ## Plugin Ecosystem 🏗️
 
 Diffopotamus comes with built-in plugins, and creating custom ones is easier than teaching a hippo to dance:
@@ -133,12 +171,14 @@ Perfect for dramatic reveals! Drag a slider to reveal the differences.
 
 ```javascript
 // Core usage
-import { SliderPlugin } from '@diffopotamus/core';
+import { SliderPlugin } from '@diffopotamus/core/plugins/slider';
+import '@diffopotamus/core/plugins/slider/styles.css';
+const sliderPlugins = { slider: SliderPlugin };
 differ.registerPlugin('slider', SliderPlugin);
 await differ.activatePlugin('slider');
 
-// React usage - automatically available!
-<DiffopotamusViewer defaultPlugin="slider" />
+// React usage
+<DiffopotamusViewer plugins={sliderPlugins} defaultPlugin="slider" />
 ```
 
 #### Overlay
@@ -146,12 +186,14 @@ Blend images with different modes like a photo editing pro.
 
 ```javascript
 // Core usage  
-import { OverlayPlugin } from '@diffopotamus/core';
+import { OverlayPlugin } from '@diffopotamus/core/plugins/overlay';
+import '@diffopotamus/core/plugins/overlay/styles.css';
+const overlayPlugins = { overlay: OverlayPlugin };
 differ.registerPlugin('overlay', OverlayPlugin);
 await differ.activatePlugin('overlay');
 
-// React usage - automatically available!
-<DiffopotamusViewer defaultPlugin="overlay" />
+// React usage
+<DiffopotamusViewer plugins={overlayPlugins} defaultPlugin="overlay" />
 ```
 
 #### Side-by-Side
@@ -159,12 +201,14 @@ Classic split-screen comparison - old school but gold school!
 
 ```javascript
 // Core usage
-import { SideBySidePlugin } from '@diffopotamus/core';
+import { SideBySidePlugin } from '@diffopotamus/core/plugins/side-by-side';
+import '@diffopotamus/core/plugins/side-by-side/styles.css';
+const sideBySidePlugins = { sideBySide: SideBySidePlugin };
 differ.registerPlugin('sideBySide', SideBySidePlugin);
 await differ.activatePlugin('sideBySide');
 
-// React usage - automatically available!
-<DiffopotamusViewer defaultPlugin="sideBySide" />
+// React usage
+<DiffopotamusViewer plugins={sideBySidePlugins} defaultPlugin="sideBySide" />
 ```
 
 #### Lightbox
@@ -172,12 +216,14 @@ Zoom, pan, and temporarily mark an image without rendering a diff. Use only `aft
 
 ```javascript
 // Core usage
-import { LightboxPlugin } from '@diffopotamus/core';
+import { LightboxPlugin } from '@diffopotamus/core/plugins/lightbox';
+import '@diffopotamus/core/plugins/lightbox/styles.css';
+const lightboxPlugins = { lightbox: LightboxPlugin };
 differ.registerPlugin('lightbox', LightboxPlugin);
 await differ.activatePlugin('lightbox');
 
-// React usage - automatically available!
-<DiffopotamusViewer afterImage="/image.png" defaultPlugin="lightbox" />
+// React usage
+<DiffopotamusViewer plugins={lightboxPlugins} afterImage="/image.png" defaultPlugin="lightbox" />
 ```
 
 Controls are customizable with `diffopotamus-lightbox-*` CSS classes and theme variables. See Storybook's Single Image and Consumer Theme examples for more.
@@ -305,7 +351,7 @@ Diffopotamus is organized as a monorepo with focused packages:
 - **[@diffopotamus/react](./packages/react)** - React component and hook
 
 Choose the package that fits your project:
-- Building a React app? → `@diffopotamus/react`
+- Building a React app? → `@diffopotamus/react` plus selected plugins from `@diffopotamus/core`
 - Using Vue, Svelte, or vanilla JS? → `@diffopotamus/core`
 
 ## Contributing 🤝

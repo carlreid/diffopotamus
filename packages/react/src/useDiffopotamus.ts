@@ -1,12 +1,8 @@
 import {
   Diffopotamus,
   type DiffopotamusConfig,
-  LightboxPlugin,
   type LoadedImages,
-  OverlayPlugin,
   type PluginConstructor,
-  SideBySidePlugin,
-  SliderPlugin,
 } from "@diffopotamus/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type {
@@ -65,9 +61,6 @@ export function useDiffopotamus(
           config.beforeImage = options.beforeImage;
 
         // Add optional properties only if they have values
-        if (options.defaultPlugin !== undefined) {
-          config.defaultPlugin = options.defaultPlugin;
-        }
         if (options.width !== undefined) {
           config.width = options.width;
         }
@@ -83,18 +76,7 @@ export function useDiffopotamus(
           };
         }
 
-        // Create instance without defaultPlugin first
-        const tempConfig = { ...config };
-        delete tempConfig.defaultPlugin;
-
-        diffopotamus = new Diffopotamus(container, tempConfig);
-
-        // Register default plugins
-        diffopotamus.registerPlugin("slider", SliderPlugin);
-        diffopotamus.registerPlugin("sideBySide", SideBySidePlugin);
-        diffopotamus.registerPlugin("overlay", OverlayPlugin);
-        diffopotamus.registerPlugin("lightbox", LightboxPlugin);
-
+        diffopotamus = new Diffopotamus(container, config);
         // Now activate the default plugin if specified
         if (options.defaultPlugin) {
           await diffopotamus.activatePlugin(options.defaultPlugin);

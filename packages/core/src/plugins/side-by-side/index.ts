@@ -1,6 +1,5 @@
 import { BasePlugin } from "../../types/index.js";
 import { SideBySideRenderer } from "./components/side-by-side-renderer.js";
-import { StyleManager } from "./styles/style-manager.js";
 import type {
   SideBySideConfig,
   SideBySideElements,
@@ -8,14 +7,12 @@ import type {
 
 export class SideBySidePlugin extends BasePlugin {
   private elements: SideBySideElements | null = null;
-  private styleManager: StyleManager;
   private renderer: SideBySideRenderer;
   private showLabels: boolean = true;
   private sideBySideConfig: SideBySideConfig | undefined = undefined;
 
   constructor(config: SideBySideConfig) {
     super(config);
-    this.styleManager = StyleManager.getInstance();
     this.renderer = new SideBySideRenderer();
     this.sideBySideConfig = config;
   }
@@ -25,7 +22,6 @@ export class SideBySidePlugin extends BasePlugin {
       throw new Error("Config is not defined");
     }
 
-    this.styleManager.injectStyles();
     this.elements = this.renderer.create(this.sideBySideConfig);
     this.container.appendChild(this.elements.container);
   }

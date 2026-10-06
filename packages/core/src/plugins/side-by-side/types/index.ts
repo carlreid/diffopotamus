@@ -6,5 +6,4 @@ export * from "../components/element-factory.js";
 export { SideBySideRenderer } from "../components/side-by-side-renderer.js";
 // Re-export main plugin
 export { SideBySidePlugin } from "../index.js";
-export { StyleManager } from "../styles/style-manager.js";
 export type * from "./side-by-side-types.js";

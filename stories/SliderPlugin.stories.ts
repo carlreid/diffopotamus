@@ -1,4 +1,6 @@
+import { SliderPlugin } from "@diffopotamus/core/plugins/slider";
 import type { Meta, StoryObj } from "@storybook/html-vite";
+import "@diffopotamus/core/plugins/slider/styles.css";
 
 const meta: Meta = {
   title: "Diffopotamus/Plugins/Slider Plugin",
@@ -68,18 +70,16 @@ export const Default: Story = {
     // Use requestAnimationFrame to ensure DOM is ready
     requestAnimationFrame(async () => {
       try {
-        const { Diffopotamus, SliderPlugin } = await import(
-          "../packages/core/dist/index.js"
-        );
+        const { Diffopotamus } = await import("@diffopotamus/core");
 
         const differ = new Diffopotamus(container, {
           beforeImage: args.beforeImage,
           afterImage: args.afterImage,
+          plugins: { slider: SliderPlugin },
           width: args.width,
           height: args.height,
         });
 
-        differ.registerPlugin("slider", SliderPlugin);
         await differ.activatePlugin("slider");
       } catch (error) {
         console.error("Failed to initialize slider plugin:", error);

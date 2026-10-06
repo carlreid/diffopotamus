@@ -8,5 +8,4 @@ export { EventController } from "../events/event-controller.js";
 // Re-export main plugin
 export { SliderPlugin } from "../index.js";
 export { StateManager } from "../state/state-manager.js";
-export { StyleManager } from "../styles/style-manager.js";
 export type * from "./slider-types.js";

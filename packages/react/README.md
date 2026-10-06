@@ -5,15 +5,21 @@ React components and hooks for Diffopotamus - the adorable image comparison libr
 ## Installation
 
 ```bash
-pnpm add @diffopotamus/react
+pnpm add @diffopotamus/core @diffopotamus/react
 ```
 
 ## Quick Start
+
+The wrapper does not bundle or register built-in plugins and does not load CSS. Import each constructor and its stylesheet explicitly, then pass a stable `plugins` registry to the component or hook. Only registered plugins are selectable; `defaultPlugin` selects one of those names.
 
 ### Component (Simple)
 
 ```tsx
 import { DiffopotamusViewer } from '@diffopotamus/react';
+import { SliderPlugin } from '@diffopotamus/core/plugins/slider';
+import '@diffopotamus/core/plugins/slider/styles.css';
+
+const plugins = { slider: SliderPlugin };
 
 function MyApp() {
   return (
@@ -21,6 +27,7 @@ function MyApp() {
       beforeImage="/before.jpg"
       afterImage="/after.jpg"
       defaultPlugin="slider"
+      plugins={plugins}
       width="600px"
       height="400px"
     />
@@ -33,6 +40,10 @@ function MyApp() {
 ```tsx
 import { useRef } from 'react';
 import { useDiffopotamus } from '@diffopotamus/react';
+import { OverlayPlugin } from '@diffopotamus/core/plugins/overlay';
+import '@diffopotamus/core/plugins/overlay/styles.css';
+
+const plugins = { overlay: OverlayPlugin };
 
 function MyApp() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,6 +58,7 @@ function MyApp() {
     beforeImage: '/before.jpg',
     afterImage: '/after.jpg',
     defaultPlugin: 'overlay',
+    plugins,
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -68,11 +80,23 @@ function MyApp() {
 
 ## Image inspection with Lightbox
 
-Zoom, pan, and temporarily mark an image. `lightbox` is available automatically in the component and hook; use only `afterImage` for a single image, or add `beforeImage` for a pair.
+Zoom, pan, and temporarily mark an image. Opt into Lightbox explicitly; use only `afterImage` for a single image, or add `beforeImage` for a pair.
 
 ```tsx
-<DiffopotamusViewer afterImage="/image.png" defaultPlugin="lightbox" />
+import { DiffopotamusViewer } from '@diffopotamus/react';
+import { LightboxPlugin } from '@diffopotamus/core/plugins/lightbox';
+import '@diffopotamus/core/plugins/lightbox/styles.css';
+
+const plugins = { lightbox: LightboxPlugin };
+
+function ImageInspector() {
+  return <DiffopotamusViewer afterImage="/image.png" plugins={plugins} defaultPlugin="lightbox" />;
+}
 ```
 
 Customize controls with `diffopotamus-lightbox-*` CSS classes and theme variables. See Storybook's Single Image and Consumer Theme examples for more.
+
+Side by Side is available from `@diffopotamus/core/plugins/side-by-side` with its `styles.css` subpath. Registry keys are consumer-selected names (for example `sideBySide`). The hook also retains `registerPlugin(name, Constructor)` for manual registration after initialization; load that plugin's CSS yourself.
+
+Default styles live in `@layer diffopotamus`, so ordinary unlayered consumer CSS can override stable `diffopotamus-*` class hooks without `!important`. Common tokens are `--diffopotamus-accent`, `--diffopotamus-control-background`, `--diffopotamus-control-radius`, and `--diffopotamus-font`; Lightbox additionally provides its own theme variables.
 

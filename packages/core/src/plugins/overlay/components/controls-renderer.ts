@@ -48,9 +48,6 @@ export class ControlsRenderer {
     advanced.appendChild(toggleButtons.after);
     advanced.appendChild(animationControls.container);
 
-    // Initially hide advanced controls
-    advanced.style.display = "none";
-
     // Assemble main structure
     container.appendChild(compact);
     container.appendChild(advanced);
@@ -110,16 +107,14 @@ export class ControlsRenderer {
   toggleAdvancedControls(isExpanded: boolean): void {
     if (!this.elements || !this.buttons) return;
 
-    const { advanced, container } = this.elements;
+    const { container } = this.elements;
     const { expand } = this.buttons;
 
     if (isExpanded) {
-      advanced.style.display = "flex";
       expand.innerHTML = "✕";
       expand.title = "Hide advanced controls";
       container.classList.add("diffopotamus-expanded");
     } else {
-      advanced.style.display = "none";
       expand.innerHTML = "⚙️";
       expand.title = "Show advanced controls";
       container.classList.remove("diffopotamus-expanded");
