@@ -21,7 +21,7 @@ const preview: Preview = {
         title: "Theme",
         icon: "circlehollow",
         items: ["light", "dark"],
-        showName: true,
+        dynamicTitle: false,
       },
     },
   },

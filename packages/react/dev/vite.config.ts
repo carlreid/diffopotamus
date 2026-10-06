@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@diffopotamus/react": resolve(__dirname, "../src"),
-      "@diffopotamus/core": resolve(__dirname, "../../core/src"),
+      "@diffopotamus/react": resolve(import.meta.dirname, "../src"),
+      "@diffopotamus/core": resolve(import.meta.dirname, "../../core/src"),
     },
   },
   server: {

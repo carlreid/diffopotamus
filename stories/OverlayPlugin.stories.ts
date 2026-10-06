@@ -83,7 +83,7 @@ export const Default: Story = {
         await differ.activatePlugin("overlay");
       } catch (error) {
         console.error("Failed to initialize overlay plugin:", error);
-        container.innerHTML = `<div style="padding: 20px;">Failed to load Overlay Plugin: ${error.message}</div>`;
+        container.innerHTML = `<div style="padding: 20px;">Failed to load Overlay Plugin: ${error instanceof Error ? error.message : String(error)}</div>`;
       }
     });
 
