@@ -1,6 +1,5 @@
 import { BasePlugin } from "../../types/index.js";
 import { createIcon, type IconName } from "./icons.js";
-import { injectStyles } from "./styles.js";
 import {
   type DrawingTool,
   type ImageSide,
@@ -17,7 +16,6 @@ export class LightboxPlugin extends BasePlugin {
   private restoreFocus: HTMLElement | null = null;
 
   render(): void {
-    injectStyles();
     this.events = new AbortController();
     const options = { signal: this.events.signal };
     const root = document.createElement("div");

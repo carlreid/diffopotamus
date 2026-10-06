@@ -1,5 +1,9 @@
+import {
+  type SideBySideConfig,
+  SideBySidePlugin,
+} from "@diffopotamus/core/plugins/side-by-side";
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import type { SideBySideConfig } from "../packages/core/dist/plugins/side-by-side/index.js";
+import "@diffopotamus/core/plugins/side-by-side/styles.css";
 import { createStoryContainer, sampleImages } from "./utils";
 
 const meta: Meta = {
@@ -65,25 +69,21 @@ export const Default: Story = {
 
     setTimeout(async () => {
       try {
-        const { Diffopotamus, SideBySidePlugin } = await import(
-          "../packages/core/dist/index.js"
-        );
-
-        const differ = new Diffopotamus(container, {
-          beforeImage: args.beforeImage,
-          afterImage: args.afterImage,
-          defaultPlugin: "sideBySide",
-          width: args.width,
-          height: args.height,
-        });
+        const { Diffopotamus } = await import("@diffopotamus/core");
 
         const ConfiguredSideBySidePlugin = class extends SideBySidePlugin {
           constructor(config: SideBySideConfig) {
             super({ ...config, showLabels: args.showLabels });
           }
         };
-
-        differ.registerPlugin("sideBySide", ConfiguredSideBySidePlugin);
+        new Diffopotamus(container, {
+          beforeImage: args.beforeImage,
+          afterImage: args.afterImage,
+          defaultPlugin: "sideBySide",
+          width: args.width,
+          plugins: { sideBySide: ConfiguredSideBySidePlugin },
+          height: args.height,
+        });
       } catch (error) {
         console.error("Failed to initialize side-by-side plugin:", error);
         container.innerHTML = `
@@ -114,16 +114,7 @@ export const WithoutLabels: Story = {
 
     setTimeout(async () => {
       try {
-        const { Diffopotamus, SideBySidePlugin } = await import(
-          "../packages/core/dist/index.js"
-        );
-
-        const differ = new Diffopotamus(container, {
-          beforeImage: args.beforeImage,
-          afterImage: args.afterImage,
-          width: args.width,
-          height: args.height,
-        });
+        const { Diffopotamus } = await import("@diffopotamus/core");
 
         // Create a plugin class that respects the showLabels argument
         const ConfiguredSideBySidePlugin = class extends SideBySidePlugin {
@@ -132,8 +123,14 @@ export const WithoutLabels: Story = {
             super({ ...config, showLabels: args.showLabels });
           }
         };
+        const differ = new Diffopotamus(container, {
+          beforeImage: args.beforeImage,
+          afterImage: args.afterImage,
+          plugins: { sideBySide: ConfiguredSideBySidePlugin },
+          width: args.width,
+          height: args.height,
+        });
 
-        differ.registerPlugin("sideBySide", ConfiguredSideBySidePlugin);
         await differ.activatePlugin("sideBySide");
       } catch (error) {
         console.error("Failed to initialize side-by-side plugin:", error);

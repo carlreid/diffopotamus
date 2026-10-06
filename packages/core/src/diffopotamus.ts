@@ -36,6 +36,13 @@ export class Diffopotamus {
     }
 
     this.config = config;
+    const hasOwn = Object.prototype.hasOwnProperty;
+    for (const name in config.plugins) {
+      const PluginClass = config.plugins[name];
+      if (PluginClass && hasOwn.call(config.plugins, name)) {
+        this.registerPlugin(name, PluginClass);
+      }
+    }
     this.init();
   }
 

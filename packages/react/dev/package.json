@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@diffopotamus/core": "workspace:*",
     "@diffopotamus/react": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

@@ -1,4 +1,6 @@
+import { OverlayPlugin } from "@diffopotamus/core/plugins/overlay";
 import type { Meta, StoryObj } from "@storybook/html-vite";
+import "@diffopotamus/core/plugins/overlay/styles.css";
 
 const meta: Meta = {
   title: "Diffopotamus/Plugins/Overlay Plugin",
@@ -68,18 +70,16 @@ export const Default: Story = {
     // Use requestAnimationFrame to ensure DOM is ready
     requestAnimationFrame(async () => {
       try {
-        const { Diffopotamus, OverlayPlugin } = await import(
-          "../packages/core/dist/index.js"
-        );
+        const { Diffopotamus } = await import("@diffopotamus/core");
 
         const differ = new Diffopotamus(container, {
           beforeImage: args.beforeImage,
           afterImage: args.afterImage,
+          plugins: { overlay: OverlayPlugin },
           width: "100%",
           height: "100%",
         });
 
-        differ.registerPlugin("overlay", OverlayPlugin);
         await differ.activatePlugin("overlay");
       } catch (error) {
         console.error("Failed to initialize overlay plugin:", error);

@@ -16,8 +16,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@diffopotamus/react": ["../src"],
-      "@diffopotamus/core": ["../../core/src"]
+      "@diffopotamus/react": ["../src"]
     }
   },
   "include": ["src/**/*", "../src/**/*"]

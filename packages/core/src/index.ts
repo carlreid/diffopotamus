@@ -1,11 +1,5 @@
 // Main library
 export { Diffopotamus } from "./diffopotamus.js";
-export { LightboxPlugin } from "./plugins/lightbox/index.js";
-export { OverlayPlugin } from "./plugins/overlay/index.js";
-export { SideBySidePlugin } from "./plugins/side-by-side/index.js";
-
-// Built-in plugins
-export { SliderPlugin } from "./plugins/slider/index.js";
 // Types and interfaces
 export type {
   BasePluginConfig as PluginConfig,

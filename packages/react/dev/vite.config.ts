@@ -7,7 +7,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@diffopotamus/react": resolve(import.meta.dirname, "../src"),
-      "@diffopotamus/core": resolve(import.meta.dirname, "../../core/src"),
     },
   },
   server: {

@@ -1,7 +1,22 @@
 import type { Diffopotamus } from "@diffopotamus/core";
+import { LightboxPlugin } from "@diffopotamus/core/plugins/lightbox";
+import { OverlayPlugin } from "@diffopotamus/core/plugins/overlay";
+import { SideBySidePlugin } from "@diffopotamus/core/plugins/side-by-side";
+import { SliderPlugin } from "@diffopotamus/core/plugins/slider";
+import "@diffopotamus/core/plugins/slider/styles.css";
+import "@diffopotamus/core/plugins/overlay/styles.css";
+import "@diffopotamus/core/plugins/side-by-side/styles.css";
+import "@diffopotamus/core/plugins/lightbox/styles.css";
 import { DiffopotamusViewer, useDiffopotamus } from "@diffopotamus/react";
 import type React from "react";
 import { useRef, useState } from "react";
+
+const plugins = {
+  slider: SliderPlugin,
+  overlay: OverlayPlugin,
+  sideBySide: SideBySidePlugin,
+  lightbox: LightboxPlugin,
+};
 
 const SAMPLE_IMAGES = {
   before: "/before.png",
@@ -66,6 +81,7 @@ const ComponentDemo: React.FC = () => {
         beforeImage={SAMPLE_IMAGES.before}
         afterImage={SAMPLE_IMAGES.after}
         defaultPlugin="overlay"
+        plugins={plugins}
         width="600px"
         height="400px"
         onPluginChange={handlePluginChange}
@@ -93,6 +109,7 @@ const HookDemo: React.FC = () => {
     beforeImage: SAMPLE_IMAGES.before,
     afterImage: SAMPLE_IMAGES.after,
     defaultPlugin: "sideBySide",
+    plugins,
     width: "600px",
     height: "400px",
     onPluginChange: (pluginName) => {
