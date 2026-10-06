@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 import { createDiffopotamus, createStoryContainer } from "./utils";
 
 const meta: Meta = {
-  title: "Diffopotamus/All Plugins Comparison",
+  title: "Diffopotamus/All Plugins",
   parameters: {
     docs: {
       description: {
         component:
-          "Compare all available Diffopotamus plugins side by side to see their different approaches to image comparison.",
+          "Explore image comparison with Slider, Side by Side, and Overlay, alongside single-image inspection with Lightbox.",
       },
     },
   },
@@ -23,8 +23,7 @@ export const AllPlugins: Story = {
     wrapper.style.gridTemplateColumns = "repeat(auto-fit, minmax(300px, 1fr))";
     wrapper.style.gap = "20px";
     wrapper.style.padding = "20px";
-    wrapper.style.height = "100vh";
-    wrapper.style.maxHeight = "400px";
+    wrapper.style.gridAutoRows = "minmax(420px, auto)";
     wrapper.style.boxSizing = "border-box";
 
     const plugins = [
@@ -42,6 +41,11 @@ export const AllPlugins: Story = {
         name: "overlay",
         title: "🌈 Overlay Plugin",
         description: "Overlay images with opacity control",
+      },
+      {
+        name: "lightbox",
+        title: "Lightbox Plugin",
+        description: "Inspect one image with zoom, pan, and temporary marks",
       },
     ];
 

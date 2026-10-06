@@ -8,6 +8,9 @@ export class SideBySideRenderer {
   private elements: SideBySideElements | null = null;
 
   create(config: SideBySideConfig): SideBySideElements {
+    if (!config.beforeImage) {
+      throw new Error("Side by Side requires before and after images");
+    }
     const layoutConfig: {
       labels?: { before: string; after: string };
       showLabels?: boolean;

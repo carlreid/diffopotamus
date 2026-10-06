@@ -1,25 +1,32 @@
 // Supported image input types
 export type ImageInput = string | URL | Blob | File | HTMLImageElement;
 
+export interface LoadedImages {
+  before: HTMLImageElement | null;
+  after: HTMLImageElement;
+}
+
+export interface PluginConstructor {
+  new (config: BasePluginConfig): BasePlugin;
+  readonly requiresImagePair?: boolean;
+}
+
 export interface DiffopotamusConfig {
-  beforeImage: ImageInput;
+  beforeImage?: ImageInput;
   afterImage: ImageInput;
   defaultPlugin?: string;
   width?: string | number;
   height?: string | number;
-  plugins?: Record<string, new (config: BasePluginConfig) => BasePlugin>;
+  plugins?: Record<string, PluginConstructor>;
   onPluginChange?: (pluginName: string) => void;
-  onImageLoad?: (images: {
-    before: HTMLImageElement;
-    after: HTMLImageElement;
-  }) => void;
+  onImageLoad?: (images: LoadedImages) => void;
   onImageLoadStart?: () => void;
   onError?: (error: Error) => void;
 }
 
 export interface BasePluginConfig {
   container: HTMLElement;
-  beforeImage: HTMLImageElement;
+  beforeImage: HTMLImageElement | null;
   afterImage: HTMLImageElement;
   width: number;
   height: number;
@@ -32,23 +39,29 @@ export interface PluginEventMap {
   "plugin:destroy": CustomEvent<{ pluginName: string }>;
   "image:load:start": CustomEvent<Record<string, never>>;
   "image:load": CustomEvent<{
-    images: { before: HTMLImageElement; after: HTMLImageElement };
+    images: LoadedImages;
   }>;
   "image:error": CustomEvent<{ error: Error }>;
 }
 
 export abstract class BasePlugin {
+  static readonly requiresImagePair: boolean = true;
   protected container: HTMLElement;
-  protected beforeImage: HTMLImageElement;
   protected afterImage: HTMLImageElement;
   protected config: BasePluginConfig;
   protected isActive: boolean = false;
 
   constructor(config: BasePluginConfig) {
     this.container = config.container;
-    this.beforeImage = config.beforeImage;
     this.afterImage = config.afterImage;
     this.config = config;
+  }
+
+  protected get beforeImage(): HTMLImageElement {
+    if (!this.config.beforeImage) {
+      throw new Error("This plugin requires before and after images");
+    }
+    return this.config.beforeImage;
   }
 
   abstract render(): void;

@@ -53,6 +53,13 @@ const ComponentDemo: React.FC = () => {
         >
           Slider
         </button>
+        <button
+          type="button"
+          onClick={() => switchPlugin("lightbox")}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          Lightbox
+        </button>
       </div>
       <p>Current Plugin: {currentPlugin}</p>
       <DiffopotamusViewer
