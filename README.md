@@ -14,6 +14,7 @@ Our modular design means you can swap out comparison methods faster than a hippo
 - **Side by Side** - Classic split-screen action
 - **Overlay with Slider** - Swipe to reveal like a magic trick
 - **Overlay Blending** - Fade between images like a smooth operator
+- **Lightbox** - Inspect one image with zoom, pan, and temporary annotations
 
 **🎯 Easy as Pie (Hippo Pie?)**
 We believe comparing images should be fun, not a chore that makes you want to hibernate. Our API is as friendly as a baby hippo, making integration smoother than a hippo sliding into water.
@@ -165,6 +166,21 @@ await differ.activatePlugin('sideBySide');
 // React usage - automatically available!
 <DiffopotamusViewer defaultPlugin="sideBySide" />
 ```
+
+#### Lightbox
+Zoom, pan, and temporarily mark an image without rendering a diff. Use only `afterImage` for a single image, or add `beforeImage` for a pair.
+
+```javascript
+// Core usage
+import { LightboxPlugin } from '@diffopotamus/core';
+differ.registerPlugin('lightbox', LightboxPlugin);
+await differ.activatePlugin('lightbox');
+
+// React usage - automatically available!
+<DiffopotamusViewer afterImage="/image.png" defaultPlugin="lightbox" />
+```
+
+Controls are customizable with `diffopotamus-lightbox-*` CSS classes and theme variables. See Storybook's Single Image and Consumer Theme examples for more.
 
 ### Creating Custom Plugins
 

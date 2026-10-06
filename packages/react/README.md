@@ -65,3 +65,14 @@ function MyApp() {
   );
 }
 ```
+
+## Image inspection with Lightbox
+
+Zoom, pan, and temporarily mark an image. `lightbox` is available automatically in the component and hook; use only `afterImage` for a single image, or add `beforeImage` for a pair.
+
+```tsx
+<DiffopotamusViewer afterImage="/image.png" defaultPlugin="lightbox" />
+```
+
+Customize controls with `diffopotamus-lightbox-*` CSS classes and theme variables. See Storybook's Single Image and Consumer Theme examples for more.
+

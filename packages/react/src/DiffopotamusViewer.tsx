@@ -1,6 +1,7 @@
 import {
   Diffopotamus,
   type DiffopotamusConfig,
+  LightboxPlugin,
   OverlayPlugin,
   SideBySidePlugin,
   SliderPlugin,
@@ -54,9 +55,9 @@ export const DiffopotamusViewer: React.FC<DiffopotamusViewerProps> = ({
     const initDiffopotamus = async () => {
       try {
         const config: DiffopotamusConfig = {
-          beforeImage,
           afterImage,
         };
+        if (beforeImage !== undefined) config.beforeImage = beforeImage;
 
         // Add optional properties only if they're defined
         if (callbacksRef.current.onImageLoadStart) {
@@ -85,6 +86,7 @@ export const DiffopotamusViewer: React.FC<DiffopotamusViewerProps> = ({
         diffopotamus.registerPlugin("slider", SliderPlugin);
         diffopotamus.registerPlugin("sideBySide", SideBySidePlugin);
         diffopotamus.registerPlugin("overlay", OverlayPlugin);
+        diffopotamus.registerPlugin("lightbox", LightboxPlugin);
 
         // Now activate the default plugin if specified
         if (defaultPlugin) {

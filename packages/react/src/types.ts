@@ -1,7 +1,7 @@
 import type {
-  BasePlugin,
   DiffopotamusConfig,
-  PluginConfig,
+  LoadedImages,
+  PluginConstructor,
 } from "@diffopotamus/core";
 import type { RefObject } from "react";
 
@@ -16,10 +16,7 @@ export interface DiffopotamusViewerProps
   className?: string;
   style?: React.CSSProperties;
   onPluginChange?: (pluginName: string) => void;
-  onImageLoad?: (images: {
-    before: HTMLImageElement;
-    after: HTMLImageElement;
-  }) => void;
+  onImageLoad?: (images: LoadedImages) => void;
   onImageLoadStart?: () => void;
   onError?: (error: Error) => void;
   onReady?: (instance: import("@diffopotamus/core").Diffopotamus) => void;
@@ -35,14 +32,8 @@ export interface UseDiffopotamusReturn {
   isReady: boolean;
   error: Error | null;
   activatePlugin: (name: string) => Promise<void>;
-  updateImages: (
-    beforeImage: ImageInput,
-    afterImage: ImageInput,
-  ) => Promise<void>;
-  registerPlugin: (
-    name: string,
-    PluginClass: new (config: PluginConfig) => BasePlugin,
-  ) => void;
+  updateImages: (image: ImageInput, afterImage?: ImageInput) => Promise<void>;
+  registerPlugin: (name: string, PluginClass: PluginConstructor) => void;
   getAvailablePlugins: () => string[];
   getCurrentPlugin: () => string | null;
 }
