@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "../",
     "outDir": "../dist/storybook",
-    "moduleResolution": "node",
+    "jsx": "react-jsx",
     "allowJs": true,
     "noEmit": true
   },

@@ -83,7 +83,7 @@ export const Default: Story = {
         await differ.activatePlugin("slider");
       } catch (error) {
         console.error("Failed to initialize slider plugin:", error);
-        container.innerHTML = `<div style="padding: 20px;">Failed to load Slider Plugin: ${error.message}</div>`;
+        container.innerHTML = `<div style="padding: 20px;">Failed to load Slider Plugin: ${error instanceof Error ? error.message : String(error)}</div>`;
       }
     });
 
