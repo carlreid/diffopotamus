@@ -1,9 +1,10 @@
 import {
-  type BasePlugin,
   Diffopotamus,
   type DiffopotamusConfig,
+  LightboxPlugin,
+  type LoadedImages,
   OverlayPlugin,
-  type PluginConfig,
+  type PluginConstructor,
   SideBySidePlugin,
   SliderPlugin,
 } from "@diffopotamus/core";
@@ -43,16 +44,12 @@ export function useDiffopotamus(
         setIsReady(false);
 
         const config: DiffopotamusConfig = {
-          beforeImage: options.beforeImage,
           afterImage: options.afterImage,
           onImageLoadStart: () => {
             setIsLoading(true);
             callbacksRef.current.onImageLoadStart?.();
           },
-          onImageLoad: (images: {
-            before: HTMLImageElement;
-            after: HTMLImageElement;
-          }) => {
+          onImageLoad: (images: LoadedImages) => {
             setIsLoading(false);
             setIsReady(true);
             callbacksRef.current.onImageLoad?.(images);
@@ -64,6 +61,8 @@ export function useDiffopotamus(
             callbacksRef.current.onError?.(err);
           },
         };
+        if (options.beforeImage !== undefined)
+          config.beforeImage = options.beforeImage;
 
         // Add optional properties only if they have values
         if (options.defaultPlugin !== undefined) {
@@ -94,6 +93,7 @@ export function useDiffopotamus(
         diffopotamus.registerPlugin("slider", SliderPlugin);
         diffopotamus.registerPlugin("sideBySide", SideBySidePlugin);
         diffopotamus.registerPlugin("overlay", OverlayPlugin);
+        diffopotamus.registerPlugin("lightbox", LightboxPlugin);
 
         // Now activate the default plugin if specified
         if (options.defaultPlugin) {
@@ -159,14 +159,14 @@ export function useDiffopotamus(
   );
 
   const updateImages = useCallback(
-    async (beforeImage: ImageInput, afterImage: ImageInput) => {
+    async (image: ImageInput, afterImage?: ImageInput) => {
       if (!instance) {
         throw new Error("Diffopotamus instance not ready");
       }
       try {
         setError(null);
         setIsLoading(true);
-        await instance.updateImages(beforeImage, afterImage);
+        await instance.updateImages(image, afterImage);
         setIsLoading(false);
       } catch (err) {
         const error =
@@ -180,7 +180,7 @@ export function useDiffopotamus(
   );
 
   const registerPlugin = useCallback(
-    (name: string, PluginClass: new (config: PluginConfig) => BasePlugin) => {
+    (name: string, PluginClass: PluginConstructor) => {
       if (!instance) {
         throw new Error("Diffopotamus instance not ready");
       }

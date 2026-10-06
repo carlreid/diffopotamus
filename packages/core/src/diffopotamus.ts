@@ -3,15 +3,17 @@ import type {
   BasePluginConfig,
   DiffopotamusConfig,
   ImageInput,
+  LoadedImages,
+  PluginConstructor,
   PluginEventMap,
 } from "./types/index.js";
 
 export class Diffopotamus {
   private container: HTMLElement;
   private config: DiffopotamusConfig;
-  private plugins: Map<string, new (config: BasePluginConfig) => BasePlugin> =
-    new Map();
+  private plugins = new Map<string, PluginConstructor>();
   private activePlugin: BasePlugin | null = null;
+  private activePluginName: string | null = null;
   private beforeImage: HTMLImageElement | null = null;
   private afterImage: HTMLImageElement | null = null;
   private imagesLoaded = false;
@@ -45,20 +47,14 @@ export class Diffopotamus {
       // Load images
       await this.loadImages();
 
-      // Dispatch image load event
-      if (this.config.onImageLoad && this.beforeImage && this.afterImage) {
-        this.config.onImageLoad({
+      if (this.afterImage) {
+        const images: LoadedImages = {
           before: this.beforeImage,
           after: this.afterImage,
-        });
+        };
+        this.config.onImageLoad?.(images);
+        this.dispatchEvent("image:load", { images });
       }
-
-      this.dispatchEvent("image:load", {
-        images: {
-          before: this.beforeImage as HTMLImageElement,
-          after: this.afterImage as HTMLImageElement,
-        },
-      });
 
       // Activate pending plugin if any
       if (this.pendingPluginActivation) {
@@ -125,10 +121,18 @@ export class Diffopotamus {
     this.isLoading = true;
 
     try {
-      [this.beforeImage, this.afterImage] = await Promise.all([
-        this.loadImageFromInput(this.config.beforeImage, "before"),
-        this.loadImageFromInput(this.config.afterImage, "after"),
-      ]);
+      if (this.config.beforeImage === undefined) {
+        this.beforeImage = null;
+        this.afterImage = await this.loadImageFromInput(
+          this.config.afterImage,
+          "after",
+        );
+      } else {
+        [this.beforeImage, this.afterImage] = await Promise.all([
+          this.loadImageFromInput(this.config.beforeImage, "before"),
+          this.loadImageFromInput(this.config.afterImage, "after"),
+        ]);
+      }
 
       this.imagesLoaded = true;
     } catch (error) {
@@ -194,10 +198,7 @@ export class Diffopotamus {
     });
   }
 
-  registerPlugin(
-    name: string,
-    PluginClass: new (config: BasePluginConfig) => BasePlugin,
-  ): void {
+  registerPlugin(name: string, PluginClass: PluginConstructor): void {
     this.plugins.set(name, PluginClass);
   }
 
@@ -208,13 +209,16 @@ export class Diffopotamus {
       return;
     }
 
-    if (!this.imagesLoaded || !this.beforeImage || !this.afterImage) {
+    if (!this.imagesLoaded || !this.afterImage) {
       throw new Error("Images must be loaded before activating plugin");
     }
 
     const PluginClass = this.plugins.get(name);
     if (!PluginClass) {
       throw new Error(`Plugin not found: ${name}`);
+    }
+    if (!this.beforeImage && PluginClass.requiresImagePair !== false) {
+      throw new Error(`Plugin ${name} requires before and after images`);
     }
 
     // Deactivate current plugin
@@ -254,6 +258,7 @@ export class Diffopotamus {
 
     // Create and activate new plugin
     this.activePlugin = new PluginClass(pluginConfig);
+    this.activePluginName = name;
     this.activePlugin.activate();
 
     // Dispatch plugin change event
@@ -281,23 +286,38 @@ export class Diffopotamus {
   }
 
   async updateImages(
-    beforeImage: ImageInput,
-    afterImage: ImageInput,
+    image: ImageInput,
+    afterImage?: ImageInput,
   ): Promise<void> {
     const oldBeforeImage = this.beforeImage;
     const oldAfterImage = this.afterImage;
-    const currentPluginName = this.activePlugin
-      ? this.getCurrentPlugin()
-      : null;
+    const currentPluginName = this.activePluginName;
+    const oldBeforeInput = this.config.beforeImage;
+    const oldAfterInput = this.config.afterImage;
+    if (
+      afterImage === undefined &&
+      currentPluginName &&
+      this.plugins.get(currentPluginName)?.requiresImagePair !== false
+    ) {
+      throw new Error(
+        `Plugin ${currentPluginName} requires before and after images`,
+      );
+    }
 
     try {
-      this.config.beforeImage = beforeImage;
-      this.config.afterImage = afterImage;
+      if (afterImage === undefined) {
+        delete this.config.beforeImage;
+        this.config.afterImage = image;
+      } else {
+        this.config.beforeImage = image;
+        this.config.afterImage = afterImage;
+      }
 
       // Deactivate current plugin
       if (this.activePlugin) {
         this.activePlugin.deactivate();
         this.activePlugin = null;
+        this.activePluginName = null;
       }
 
       // Clear container and reset state
@@ -307,20 +327,14 @@ export class Diffopotamus {
       // Load new images
       await this.loadImages();
 
-      // Dispatch image load event
-      if (this.config.onImageLoad && this.beforeImage && this.afterImage) {
-        this.config.onImageLoad({
+      if (this.afterImage) {
+        const images: LoadedImages = {
           before: this.beforeImage,
           after: this.afterImage,
-        });
+        };
+        this.config.onImageLoad?.(images);
+        this.dispatchEvent("image:load", { images });
       }
-
-      this.dispatchEvent("image:load", {
-        images: {
-          before: this.beforeImage as HTMLImageElement,
-          after: this.afterImage as HTMLImageElement,
-        },
-      });
 
       // Reactivate the same plugin if there was one
       if (currentPluginName) {
@@ -330,7 +344,10 @@ export class Diffopotamus {
       // Restore previous images on error
       this.beforeImage = oldBeforeImage;
       this.afterImage = oldAfterImage;
-      this.imagesLoaded = oldBeforeImage !== null && oldAfterImage !== null;
+      this.imagesLoaded = oldAfterImage !== null;
+      if (oldBeforeInput === undefined) delete this.config.beforeImage;
+      else this.config.beforeImage = oldBeforeInput;
+      this.config.afterImage = oldAfterInput;
 
       this.handleError(error as Error);
       throw error;
@@ -348,6 +365,7 @@ export class Diffopotamus {
     this.beforeImage = null;
     this.afterImage = null;
     this.imagesLoaded = false;
+    this.activePluginName = null;
     this.isLoading = false;
     this.pendingPluginActivation = null;
   }

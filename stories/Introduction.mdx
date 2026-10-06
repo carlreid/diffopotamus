@@ -9,12 +9,14 @@ import * as AllPluginsStories from './AllPlugins.stories';
 
 <Canvas of={AllPluginsStories.AllPlugins} />
 
-The best way to understand Diffopotamus is to see it working. Each approach offers a unique way to compare images:
+The best way to understand Diffopotamus is to see it working. Choose a comparison method or inspect an individual image:
 
-- **[All Comparisons](?path=/story/diffopotamus-all-plugins-comparison--all-plugins)** - See all methods side by side
+- **[All Plugins](?path=/story/diffopotamus-all-plugins--all-plugins)** - Explore comparison and inspection side by side
 - **[Slider](?path=/story/diffopotamus-plugins-slider-plugin--default)** - Interactive reveal with drag controls  
 - **[Side by Side](?path=/story/diffopotamus-plugins-side-by-side-plugin--default)** - Traditional split view
 - **[Overlay](?path=/story/diffopotamus-plugins-overlay-plugin--default)** - Smooth blending transitions
+- **[Lightbox](?path=/story/diffopotamus-plugins-lightbox-plugin--default)** - Inspect one image with zoom, pan, and temporary pen/rectangle marks
+- **[Single Image](?path=/story/diffopotamus-plugins-lightbox-plugin--single-image)** - Lightbox with one image input and no Before/After selector
 
 <div style={{
   marginTop: '30px',
@@ -24,6 +26,6 @@ The best way to understand Diffopotamus is to see it working. Each approach offe
   borderLeft: '4px solid #667eea'
 }}>
   <p style={{ margin: 0, fontStyle: 'italic', color: '#555' }}>
-    💡 <strong>Pro tip:</strong> Click through the examples above, or in the menu to the left, to interact with each comparison method and discover which style works best for your use case!
+    <strong>Pro tip:</strong> Lightbox's Fixed Bounds story demonstrates contained zoom in a short viewer. Consumer Theme shows CSS overrides that also apply in the expanded dialog. Open Image tools for temporary pen/rectangle marks; switching plugins or replacing images clears them.
   </p>
 </div>

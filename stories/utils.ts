@@ -7,8 +7,18 @@ export const createDiffopotamus = async (
   container: string | HTMLElement,
   pluginName: string,
 ) => {
-  const { Diffopotamus, SliderPlugin, SideBySidePlugin, OverlayPlugin } =
-    await import("../packages/core/dist/index.js");
+  const {
+    Diffopotamus,
+    SliderPlugin,
+    SideBySidePlugin,
+    OverlayPlugin,
+    LightboxPlugin,
+  } = await import("../packages/core/dist/index.js");
+  const target =
+    typeof container === "string"
+      ? document.querySelector(container)
+      : container;
+  if (!target?.isConnected) throw new Error("Story container is not mounted");
 
   const differ = new Diffopotamus(container, {
     beforeImage: sampleImages.before,
@@ -22,6 +32,15 @@ export const createDiffopotamus = async (
   differ.registerPlugin("slider", SliderPlugin);
   differ.registerPlugin("sideBySide", SideBySidePlugin);
   differ.registerPlugin("overlay", OverlayPlugin);
+  differ.registerPlugin("lightbox", LightboxPlugin);
+
+  const observer = new MutationObserver(() => {
+    if (!target.isConnected) {
+      observer.disconnect();
+      differ.destroy();
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 
   return differ;
 };
@@ -55,6 +74,7 @@ export const addPluginSwitcher = (
     { name: "slider", label: "🔄 Slider" },
     { name: "sideBySide", label: "🎨 Side by Side" },
     { name: "overlay", label: "🌈 Overlay" },
+    { name: "lightbox", label: "Lightbox" },
   ];
 
   plugins.forEach((plugin) => {
