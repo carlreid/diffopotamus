@@ -120,8 +120,14 @@ export class InspectionViewport {
       "viewBox",
       `0 0 ${this.imageWidth} ${this.imageHeight}`,
     );
-    this.groups.before.style.display = side === "before" ? "" : "none";
-    this.groups.after.style.display = side === "after" ? "" : "none";
+    this.groups.before.classList.toggle(
+      "diffopotamus-lightbox-marks--hidden",
+      side !== "before",
+    );
+    this.groups.after.classList.toggle(
+      "diffopotamus-lightbox-marks--hidden",
+      side !== "after",
+    );
     this.fit();
   }
 

@@ -82,13 +82,14 @@ export class SideBySideRenderer {
 
     const { beforeLabel, afterLabel } = this.elements;
 
-    if (showLabels) {
-      beforeLabel.style.display = "";
-      afterLabel.style.display = "";
-    } else {
-      beforeLabel.style.display = "none";
-      afterLabel.style.display = "none";
-    }
+    beforeLabel.classList.toggle(
+      "diffopotamus-side-by-side-label--hidden",
+      !showLabels,
+    );
+    afterLabel.classList.toggle(
+      "diffopotamus-side-by-side-label--hidden",
+      !showLabels,
+    );
   }
 
   get(): SideBySideElements | null {

@@ -29,3 +29,26 @@ The best way to understand Diffopotamus is to see it working. Choose a compariso
     <strong>Pro tip:</strong> Lightbox's Fixed Bounds story demonstrates contained zoom in a short viewer. Consumer Theme shows CSS overrides that also apply in the expanded dialog. Open Image tools for temporary pen/rectangle marks; switching plugins or replacing images clears them.
   </p>
 </div>
+
+## Explicit plugins and styles
+
+Core exports the engine separately from its built-in plugins. Import only the constructors and styles you need and register them with the existing `plugins` option. These stories intentionally load the plugins they demonstrate; the All Plugins story opts into all four.
+
+```ts
+import { Diffopotamus } from '@diffopotamus/core';
+import { SliderPlugin } from '@diffopotamus/core/plugins/slider';
+import '@diffopotamus/core/plugins/slider/styles.css';
+
+const plugins = { slider: SliderPlugin };
+const viewer = new Diffopotamus('#comparison', {
+  beforeImage: '/before.png',
+  afterImage: '/after.png',
+  plugins,
+  defaultPlugin: 'slider',
+});
+```
+
+The other constructor subpaths are `/plugins/overlay`, `/plugins/side-by-side`, and `/plugins/lightbox`, each with a matching `/styles.css` import. JavaScript never loads plugin CSS automatically. For React, pass the same stable `plugins` registry to `DiffopotamusViewer` or `useDiffopotamus`; the wrapper does not register built-ins for you. Single-image inspection still needs only `afterImage` with the explicitly registered Lightbox plugin.
+
+All defaults are in `@layer diffopotamus`, making ordinary unlayered consumer CSS authoritative. Override the stable `diffopotamus-*` class hooks or set `--diffopotamus-accent`, `--diffopotamus-control-background`, `--diffopotamus-control-radius`, and `--diffopotamus-font`. Lightbox-specific theme variables remain available.
+

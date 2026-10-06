@@ -4,12 +4,10 @@ import { createContainer } from "./components/element-factory.js";
 import { ImageRenderer } from "./components/image-renderer.js";
 import { EventController } from "./events/event-controller.js";
 import { StateManager } from "./state/state-manager.js";
-import { StyleManager } from "./styles/style-manager.js";
 import type { OverlayElements, UIState } from "./types/overlay-types.js";
 
 export class OverlayUIManager {
   private elements: OverlayElements | null = null;
-  private styleManager: StyleManager;
   private imageRenderer: ImageRenderer;
   private controlsRenderer: ControlsRenderer;
   private stateManager: StateManager;
@@ -17,7 +15,6 @@ export class OverlayUIManager {
   private stateUnsubscribe: (() => void) | null = null;
 
   constructor() {
-    this.styleManager = StyleManager.getInstance();
     this.imageRenderer = new ImageRenderer();
     this.controlsRenderer = new ControlsRenderer();
     this.stateManager = new StateManager();
@@ -30,9 +27,6 @@ export class OverlayUIManager {
     afterImageSrc: string,
     animationCurves: AnimationCurve[],
   ): OverlayElements {
-    // Inject CSS styles
-    this.styleManager.injectStyles();
-
     // Create main plugin container
     const container = createContainer(
       "diffopotamus-plugin diffopotamus-overlay",

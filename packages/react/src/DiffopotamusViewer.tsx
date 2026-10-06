@@ -1,11 +1,4 @@
-import {
-  Diffopotamus,
-  type DiffopotamusConfig,
-  LightboxPlugin,
-  OverlayPlugin,
-  SideBySidePlugin,
-  SliderPlugin,
-} from "@diffopotamus/core";
+import { Diffopotamus, type DiffopotamusConfig } from "@diffopotamus/core";
 import type React from "react";
 import { useEffect, useRef } from "react";
 import type { DiffopotamusViewerProps } from "./types.js";
@@ -76,17 +69,8 @@ export const DiffopotamusViewer: React.FC<DiffopotamusViewerProps> = ({
         if (height) config.height = height;
         if (plugins) config.plugins = plugins;
 
-        // Create instance without defaultPlugin first
-        const tempConfig = { ...config };
-
-        diffopotamus = new Diffopotamus(container, tempConfig);
+        diffopotamus = new Diffopotamus(container, config);
         instanceRef.current = diffopotamus;
-
-        // Register default plugins
-        diffopotamus.registerPlugin("slider", SliderPlugin);
-        diffopotamus.registerPlugin("sideBySide", SideBySidePlugin);
-        diffopotamus.registerPlugin("overlay", OverlayPlugin);
-        diffopotamus.registerPlugin("lightbox", LightboxPlugin);
 
         // Now activate the default plugin if specified
         if (defaultPlugin) {

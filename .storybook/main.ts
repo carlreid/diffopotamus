@@ -14,18 +14,5 @@ const config: StorybookConfig = {
   typescript: {
     check: false,
   },
-  viteFinal: async (config) => {
-    config.resolve = {
-      ...config.resolve,
-      alias: {
-        ...config.resolve?.alias,
-        "@diffopotamus/core": new URL(
-          "../packages/core/dist/index.js",
-          import.meta.url,
-        ).pathname,
-      },
-    };
-    return config;
-  },
 };
 export default config;

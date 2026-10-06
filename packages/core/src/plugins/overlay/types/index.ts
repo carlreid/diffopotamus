@@ -11,5 +11,4 @@ export { EventController } from "../events/event-controller.js";
 // Re-export main UI manager
 export { OverlayUIManager } from "../overlay-ui-manager.js";
 export { StateManager } from "../state/state-manager.js";
-export { StyleManager } from "../styles/style-manager.js";
 export type * from "./overlay-types.js";

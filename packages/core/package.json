@@ -3,20 +3,55 @@
   "version": "1.0.1",
   "description": "Core functionality for diffopotamus",
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./plugins/slider": {
+      "types": "./dist/plugins/slider/index.d.ts",
+      "import": "./dist/plugins/slider/index.js"
+    },
+    "./plugins/slider/styles.css": {
+      "types": "./dist/plugins/slider/styles.css.d.ts",
+      "default": "./dist/plugins/slider/styles.css"
+    },
+    "./plugins/overlay": {
+      "types": "./dist/plugins/overlay/index.d.ts",
+      "import": "./dist/plugins/overlay/index.js"
+    },
+    "./plugins/overlay/styles.css": {
+      "types": "./dist/plugins/overlay/styles.css.d.ts",
+      "default": "./dist/plugins/overlay/styles.css"
+    },
+    "./plugins/side-by-side": {
+      "types": "./dist/plugins/side-by-side/index.d.ts",
+      "import": "./dist/plugins/side-by-side/index.js"
+    },
+    "./plugins/side-by-side/styles.css": {
+      "types": "./dist/plugins/side-by-side/styles.css.d.ts",
+      "default": "./dist/plugins/side-by-side/styles.css"
+    },
+    "./plugins/lightbox": {
+      "types": "./dist/plugins/lightbox/index.d.ts",
+      "import": "./dist/plugins/lightbox/index.js"
+    },
+    "./plugins/lightbox/styles.css": {
+      "types": "./dist/plugins/lightbox/styles.css.d.ts",
+      "default": "./dist/plugins/lightbox/styles.css"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch"
   },
   "keywords": [
     "diff",

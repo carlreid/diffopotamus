@@ -175,6 +175,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^21.2.3
         version: 21.2.3
+      '@diffopotamus/core':
+        specifier: workspace:*
+        version: link:packages/core
       '@semantic-release/changelog':
         specifier: ^7.0.0
         version: 7.0.0(semantic-release@25.0.9(supports-color@7.2.0)(typescript@7.0.2))
@@ -238,6 +241,9 @@ importers:
 
   packages/react/dev:
     dependencies:
+      '@diffopotamus/core':
+        specifier: workspace:*
+        version: link:../../core
       '@diffopotamus/react':
         specifier: workspace:*
         version: link:..

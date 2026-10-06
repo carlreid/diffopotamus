@@ -1,5 +1,7 @@
+import type { DiffopotamusConfig } from "@diffopotamus/core";
+import { LightboxPlugin } from "@diffopotamus/core/plugins/lightbox";
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import type { DiffopotamusConfig } from "../packages/core/dist/index.js";
+import "@diffopotamus/core/plugins/lightbox/styles.css";
 
 interface LightboxArgs {
   width: string;
@@ -45,12 +47,11 @@ function renderViewer(
   container.style.height = args.height;
   wrapper.append(container);
   requestAnimationFrame(async () => {
-    const { Diffopotamus, LightboxPlugin } = await import(
-      "../packages/core/dist/index.js"
-    );
+    const { Diffopotamus } = await import("@diffopotamus/core");
     if (!wrapper.isConnected) return;
     const config: DiffopotamusConfig = {
       afterImage: args.afterImage,
+      plugins: { lightbox: LightboxPlugin },
       width: "100%",
       height: args.height,
       onError: (error) => {
@@ -66,7 +67,6 @@ function renderViewer(
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });
-    differ.registerPlugin("lightbox", LightboxPlugin);
     differ.addEventListener("plugin:render", () => {
       if (start === "drawing")
         container

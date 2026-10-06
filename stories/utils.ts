@@ -7,13 +7,23 @@ export const createDiffopotamus = async (
   container: string | HTMLElement,
   pluginName: string,
 ) => {
-  const {
-    Diffopotamus,
-    SliderPlugin,
-    SideBySidePlugin,
-    OverlayPlugin,
-    LightboxPlugin,
-  } = await import("../packages/core/dist/index.js");
+  const [
+    { Diffopotamus },
+    { SliderPlugin },
+    { SideBySidePlugin },
+    { OverlayPlugin },
+    { LightboxPlugin },
+  ] = await Promise.all([
+    import("@diffopotamus/core"),
+    import("@diffopotamus/core/plugins/slider"),
+    import("@diffopotamus/core/plugins/side-by-side"),
+    import("@diffopotamus/core/plugins/overlay"),
+    import("@diffopotamus/core/plugins/lightbox"),
+    import("@diffopotamus/core/plugins/slider/styles.css"),
+    import("@diffopotamus/core/plugins/side-by-side/styles.css"),
+    import("@diffopotamus/core/plugins/overlay/styles.css"),
+    import("@diffopotamus/core/plugins/lightbox/styles.css"),
+  ]);
   const target =
     typeof container === "string"
       ? document.querySelector(container)
@@ -24,15 +34,15 @@ export const createDiffopotamus = async (
     beforeImage: sampleImages.before,
     afterImage: sampleImages.after,
     defaultPlugin: pluginName,
+    plugins: {
+      slider: SliderPlugin,
+      sideBySide: SideBySidePlugin,
+      overlay: OverlayPlugin,
+      lightbox: LightboxPlugin,
+    },
     width: "100%",
     height: "100%",
   });
-
-  // Register all plugins
-  differ.registerPlugin("slider", SliderPlugin);
-  differ.registerPlugin("sideBySide", SideBySidePlugin);
-  differ.registerPlugin("overlay", OverlayPlugin);
-  differ.registerPlugin("lightbox", LightboxPlugin);
 
   const observer = new MutationObserver(() => {
     if (!target.isConnected) {
