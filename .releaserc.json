@@ -12,7 +12,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "pnpm version ${nextRelease.version} --no-git-tag-version && cd packages/core && pnpm version ${nextRelease.version} --no-git-tag-version && cd ../react && pnpm version ${nextRelease.version} --no-git-tag-version"
+        "prepareCmd": "pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && cd packages/core && pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && cd ../react && pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks"
       }
     ],
     [
