@@ -74,37 +74,37 @@
       {
         "type": "docs",
         "section": "Documentation",
-        "hidden": false
+        "effect": "changelog"
       },
       {
         "type": "style",
         "section": "Styles",
-        "hidden": true
+        "effect": "hidden"
       },
       {
         "type": "chore",
         "section": "Miscellaneous Chores",
-        "hidden": true
+        "effect": "hidden"
       },
       {
         "type": "refactor",
         "section": "Code Refactoring",
-        "hidden": false
+        "effect": "changelog"
       },
       {
         "type": "test",
         "section": "Tests",
-        "hidden": true
+        "effect": "hidden"
       },
       {
         "type": "build",
         "section": "Build System",
-        "hidden": true
+        "effect": "hidden"
       },
       {
         "type": "ci",
         "section": "Continuous Integration",
-        "hidden": true
+        "effect": "hidden"
       }
     ]
   }
