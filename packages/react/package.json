@@ -25,6 +25,11 @@
   ],
   "author": "Carl Reid",
   "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlreid/diffopotamus.git",
+    "directory": "packages/react"
+  },
   "publishConfig": {
     "access": "public"
   },
