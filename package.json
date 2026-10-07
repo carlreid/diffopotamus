@@ -14,7 +14,6 @@
     "knip": "knip",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "version": "pnpm -r version",
     "release": "semantic-release",
     "release:dry": "semantic-release --dry-run"
   },
