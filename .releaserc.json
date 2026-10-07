@@ -12,13 +12,20 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && cd packages/core && pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && cd ../react && pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks"
+        "prepareCmd": "pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && cd packages/core && pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && cd ../react && pnpm version ${nextRelease.version} --no-git-tag-version --no-git-checks && npm pkg set 'dependencies.@diffopotamus/core=${nextRelease.version}'"
       }
     ],
     [
       "@semantic-release/npm",
       {
         "pkgRoot": "packages/core",
+        "tarballDir": "dist"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "packages/react",
         "tarballDir": "dist"
       }
     ],
